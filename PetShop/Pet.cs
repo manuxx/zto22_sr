@@ -4,7 +4,6 @@ namespace Training.DomainClasses
 {
     public class Pet : IEquatable<Pet>
     {
-        
         public Sex sex;
         public string name { get; set; }
         public int yearOfBirth { get; set; }
