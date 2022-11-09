@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Training.DomainClasses
+﻿namespace Training.DomainClasses
 {
     public class Species
     {

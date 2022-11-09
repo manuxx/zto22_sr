@@ -1,5 +1,4 @@
-﻿using System;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 using Moq;
 using Moq.AutoMock;
 
