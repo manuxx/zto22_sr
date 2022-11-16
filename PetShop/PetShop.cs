@@ -33,7 +33,7 @@ namespace Training.DomainClasses
 
             foreach (var pet in _petsInTheStore)
             {
-                //if (pet.species == Species.Cat)
+                if (pet.species == Species.Cat)
                 {
                     yield return pet;
                 }

@@ -24,6 +24,11 @@ namespace Training.DomainClasses
             return (name != null ? name.GetHashCode() : 0);
         }
 
+        public override string ToString()
+        {
+            return $"Pet: {this.name};";
+        }
+
         public static bool operator ==(Pet left, Pet right)
         {
             return Equals(left, right);
