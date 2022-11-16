@@ -47,5 +47,31 @@ namespace Training.DomainClasses
             ret.Sort((p1,p2)=>p1.name.CompareTo(p2.name));
             return ret;
         }
+
+        private IEnumerable<Pet> Filter(Predicate<Pet> pred)
+        {
+            foreach (var pet in _petsInTheStore)
+            {
+                if (pred(pet))
+                    yield return pet;
+            }
+        }
+
+        public IEnumerable<Pet> AllMice() => 
+            Filter(pet => pet.species == Species.Mouse);
+        public IEnumerable<Pet> AllFemalePets() => 
+            Filter(pet => pet.sex == Sex.Female);
+        public IEnumerable<Pet> AllCatsOrDogs() => 
+            Filter(pet => pet.species == Species.Cat || pet.species == Species.Dog);
+        public IEnumerable<Pet> AllPetsButNotMice() => 
+            Filter(pet => pet.species != Species.Mouse);
+        public IEnumerable<Pet> AllPetsBornAfter2010() => 
+            Filter(pet => pet.yearOfBirth > 2010);
+        public IEnumerable<Pet> AllDogsBornAfter2010() => 
+            Filter(pet => pet.species == Species.Dog && pet.yearOfBirth > 2010);
+        public IEnumerable<Pet> AllMaleDogs() => 
+            Filter(pet => pet.sex == Sex.Male && pet.species == Species.Dog);
+        public IEnumerable<Pet> AllPetsBornAfter2011OrRabbits() => 
+            Filter(pet => pet.yearOfBirth > 2011 || pet.species == Species.Rabbit);
     }
 }
