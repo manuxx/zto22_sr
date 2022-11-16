@@ -14,10 +14,7 @@ namespace Training.DomainClasses
 
         public IEnumerable<Pet> AllPets()
         {
-            foreach (var pet in _petsInTheStore)
-            {
-                yield return pet;
-            }
+            return _petsInTheStore.Launder();
         }
 
         public void Add(Pet newPet)
@@ -27,6 +24,8 @@ namespace Training.DomainClasses
 
             _petsInTheStore.Add(newPet);
         }
+
+        
 
         public IEnumerable<Pet> AllCats()
         {
