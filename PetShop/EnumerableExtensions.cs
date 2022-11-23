@@ -12,7 +12,7 @@ static internal class EnumerableExtensions
         }
     }
 
-    public static IEnumerable<TItem> ThatSatisfy<TItem>(this IList<TItem> items, Func<TItem, bool> condition)
+    public static IEnumerable<TItem> ThatSatisfy<TItem>(this IEnumerable<TItem> items, Predicate<TItem> condition)
     {
         foreach (var item in items)
         {
