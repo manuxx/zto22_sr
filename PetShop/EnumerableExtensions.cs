@@ -16,6 +16,7 @@ static internal class EnumerableExtensions
     {
         return items.ThatSatisfy(new AnonymousCriteria<TItem>(condition));
     }
+
     public static IEnumerable<TItem> ThatSatisfy<TItem>(this IEnumerable<TItem> items, ICriteria<TItem> criteria)
     {
         foreach (var item in items)
@@ -25,18 +26,5 @@ static internal class EnumerableExtensions
                 yield return item;
             }
         }
-    }
-}
-
-internal class AnonymousCriteria<T> : ICriteria<T>      
-{
-    public AnonymousCriteria(Predicate<T> condition)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool IsSatisfiedBy(T pet)
-    {
-        throw new NotImplementedException();
     }
 }

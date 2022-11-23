@@ -1,4 +1,4 @@
 public interface ICriteria<TItem>
 {
-    bool IsSatisfiedBy(TItem pet);
+    bool IsSatisfiedBy(TItem item);
 }
