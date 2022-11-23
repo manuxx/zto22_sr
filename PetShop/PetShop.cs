@@ -27,9 +27,7 @@ namespace Training.DomainClasses
 
         public IEnumerable<Pet> AllCats()
         {
-
             return _petsInTheStore.ThatSatisfy(Pet.IsSpeciesOf(Species.Cat));
-
         }
 
         public IEnumerable<Pet> AllPetsSortedByName()
