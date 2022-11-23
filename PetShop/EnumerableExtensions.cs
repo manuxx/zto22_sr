@@ -27,3 +27,16 @@ static internal class EnumerableExtensions
         }
     }
 }
+
+internal class AnonymousCriteria<T> : ICriteria<T>      
+{
+    public AnonymousCriteria(Predicate<T> condition)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool IsSatisfiedBy(T pet)
+    {
+        throw new NotImplementedException();
+    }
+}
