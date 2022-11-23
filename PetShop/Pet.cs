@@ -2,8 +2,7 @@ using System;
 
 namespace Training.DomainClasses
 {
-    public class Pet : IEquatable<Pet>
-    {
+    public class Pet : IEquatable<Pet> {
         public bool Equals(Pet other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -44,5 +43,33 @@ namespace Training.DomainClasses
         public int yearOfBirth { get; set; }
         public float price { get; set; }
         public Species species { get; set; }
+
+        public static ICriteria<Pet> IsSpeciesOf(Species species) {
+            return new SpeciesCriteria(species);
+        }
+
+        public static bool IsFemale(Pet pet) {
+            return pet.sex == Sex.Female;
+        }
+
+        public static Func<Pet, bool> IsSpeciesNotOf(Species species) {
+            return pet => pet.species != species;
+        }
+
+        public static Func<Pet, bool> IsBornAfter(int i) {
+            return pet => pet.yearOfBirth > i;
+        }
+    }
+
+    public class SpeciesCriteria : ICriteria<Pet> {
+        private readonly Species species;
+
+        public SpeciesCriteria(Species species) {
+            this.species = species;
+        }
+
+        public bool IsSatisfiedBy(Pet pet) {
+            return pet.species == this.species;
+        }
     }
 }
