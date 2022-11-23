@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 
 namespace Training.DomainClasses
 {
@@ -44,5 +45,20 @@ namespace Training.DomainClasses
         public int yearOfBirth { get; set; }
         public float price { get; set; }
         public Species species { get; set; }
+    }
+
+    public class PetSpeciesCriteria : ICriteria<Pet>
+    {
+        private Species _species;
+
+        public PetSpeciesCriteria(Species species)
+        {
+            _species = species;
+        }
+
+        public bool IsSatisfiedBy(Pet item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
