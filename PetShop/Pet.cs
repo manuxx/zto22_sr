@@ -45,24 +45,39 @@ namespace Training.DomainClasses
         public float price { get; set; }
         public Species species { get; set; }
 
-        public static Func<Pet, bool> IsSpeciesOf(Species species)
+        public static ICriteria<Pet> IsSpeciesOf(Species species)
         {
-            return pet => pet.species == species;
+            return new SpeciesCriteria(species);
         }
 
-        public static Func<Pet, bool> HasSex(Sex sex)
+        public static Predicate<Pet> IsFemale()
         {
-            return pet => pet.sex == sex;
+            return pet => pet.sex == Sex.Female;
         }
 
-        public static Func<Pet, bool> IsNotSpeciesOf(Species species)
+        public static Predicate<Pet> IsNotSpeciesOf(Species species)
         {
             return pet => pet.species != species;
         }
 
-        public static Func<Pet, bool> IsBornAfter(int year)
+        public static Predicate<Pet> IsBornAfter(int year)
         {
             return pet => pet.yearOfBirth > year;
+        }
+    }
+
+    public class SpeciesCriteria : ICriteria<Pet>
+    {
+        private readonly Species _species;
+
+        public SpeciesCriteria(Species species)
+        {
+            _species = species;
+        }
+
+        public bool IsSatisfiedBy(Pet pet)
+        {
+            return pet.species == _species;
         }
     }
 }

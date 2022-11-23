@@ -12,11 +12,15 @@ static internal class EnumerableExtensions
         }
     }
 
-    public static IEnumerable<TItem> ThatSatisfy<TItem>(this IList<TItem> items, Func<TItem, bool> condition)
+    public static IEnumerable<TItem> ThatSatisfy<TItem>(this IEnumerable<TItem> items, Predicate<TItem> condition)
+    {
+        return new AnonymousCriteria<TItem>(condition);
+    }
+    public static IEnumerable<TItem> ThatSatisfy<TItem>(this IEnumerable<TItem> items, ICriteria<TItem> criteria)
     {
         foreach (var item in items)
         {
-            if (condition(item))
+            if (criteria.IsSatisfiedBy(item))
             {
                 yield return item;
             }
