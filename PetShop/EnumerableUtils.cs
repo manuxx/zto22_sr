@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Training.DomainClasses
 {
@@ -11,5 +12,18 @@ namespace Training.DomainClasses
                 yield return item;
             }
         }
+
+        public static IEnumerable<T> SelectAllThatSatisfy<T>(this IEnumerable<T> items, Predicate<T> condition)
+        {
+            foreach (var item in items)
+            {
+                if (condition(item))
+                {
+                    yield return item;
+                }
+            }
+        }
+        
+        
     }
 }
