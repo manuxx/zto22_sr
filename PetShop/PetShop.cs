@@ -48,7 +48,7 @@ namespace Training.DomainClasses
         }
 
         public IEnumerable<Pet> AllMice() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.species == Species.Mouse);
+            _petsInTheStore.SelectAllThatSatisfy(new SpeciesEqualityCriteria(Species.Mouse));
         public IEnumerable<Pet> AllFemalePets() => 
             _petsInTheStore.SelectAllThatSatisfy(pet => pet.sex == Sex.Female);
         public IEnumerable<Pet> AllCatsOrDogs() => 
@@ -56,7 +56,7 @@ namespace Training.DomainClasses
         public IEnumerable<Pet> AllPetsButNotMice() => 
             _petsInTheStore.SelectAllThatSatisfy(pet => pet.species != Species.Mouse);
         public IEnumerable<Pet> AllPetsBornAfter2010() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.yearOfBirth > 2010);
+            _petsInTheStore.SelectAllThatSatisfy(new YearOfBirthCriteria(2011));
         public IEnumerable<Pet> AllDogsBornAfter2010() => 
             _petsInTheStore.SelectAllThatSatisfy(pet => pet.species == Species.Dog && pet.yearOfBirth > 2010);
         public IEnumerable<Pet> AllMaleDogs() => 

@@ -45,4 +45,35 @@ namespace Training.DomainClasses
         public float price { get; set; }
         public Species species { get; set; }
     }
+
+    public class SpeciesEqualityCriteria : ICriteria<Pet>
+    {
+        private Species _species;
+
+        public SpeciesEqualityCriteria(Species species)
+        {
+            this._species = species;
+        }
+        
+        public bool IsSatisfiedBy(Pet pet)
+        {
+            return pet.species == _species;
+        }
+    }
+
+    public class YearOfBirthCriteria : ICriteria<Pet>
+    {
+        private int _minYear, _maxYear;
+
+        public YearOfBirthCriteria(int minYear, int maxYear = Int32.MaxValue)
+        {
+            _minYear = minYear;
+            _maxYear = maxYear;
+        }
+
+        public bool IsSatisfiedBy(Pet pet)
+        {
+            return pet.yearOfBirth >= _minYear && pet.yearOfBirth <= _maxYear;
+        }
+    }
 }

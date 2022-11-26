@@ -15,15 +15,18 @@ namespace Training.DomainClasses
 
         public static IEnumerable<T> SelectAllThatSatisfy<T>(this IEnumerable<T> items, Predicate<T> condition)
         {
+            return items.SelectAllThatSatisfy(new PredicateCriteria<T>(condition));
+        }
+
+        public static IEnumerable<T> SelectAllThatSatisfy<T>(this IEnumerable<T> items, ICriteria<T> criteria)
+        {
             foreach (var item in items)
             {
-                if (condition(item))
+                if (criteria.IsSatisfiedBy(item))
                 {
                     yield return item;
                 }
             }
         }
-        
-        
     }
 }
