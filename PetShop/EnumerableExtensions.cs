@@ -16,6 +16,8 @@ static internal class EnumerableExtensions
     {
         return items.ThatSatisfy(new AnonymousCriteria<TItem>(condition));
 
+
+
     }
 
     public static IEnumerable<TItem> ThatSatisfy<TItem>(this IEnumerable<TItem> items, ICriteria<TItem> criteria)
