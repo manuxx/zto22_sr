@@ -1,6 +1,6 @@
 using System;
 
-internal class AnonymousCriteria<TItem> : ICriteria<TItem>      
+public class AnonymousCriteria<TItem> : ICriteria<TItem>      
 {
     private readonly Predicate<TItem> _condition;
 
