@@ -1,17 +1,17 @@
 namespace Training.DomainClasses
 {
-    public class Negation<T> : ICriteria<T>
+    public class Negation<TItem> : ICriteria<TItem>
     {
-        private ICriteria<T> _criteria;
+        private readonly ICriteria<TItem> _criteriaToNegate;
 
-        public Negation(ICriteria<T> criteria)
+        public Negation(ICriteria<TItem> criteriaToNegate)
         {
-            _criteria = criteria;
+            _criteriaToNegate = criteriaToNegate;
         }
 
-        public bool IsSatisfiedBy(T item)
+        public bool IsSatisfiedBy(TItem item)
         {
-            return !_criteria.IsSatisfiedBy(item);
+            return !_criteriaToNegate.IsSatisfiedBy(item);
         }
     }
 }

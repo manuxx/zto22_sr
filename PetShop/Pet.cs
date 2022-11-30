@@ -55,17 +55,15 @@ namespace Training.DomainClasses
             return new SexCriteria(Sex.Female);
         }
 
-        public static ICriteria<Pet> IsMale()
+        public static Predicate<Pet> IsNotSpeciesOf(Species species)
         {
-            return new SexCriteria(Sex.Male);
+            return pet => pet.species != species;
         }
 
         public static ICriteria<Pet> IsBornAfter(int year)
         {
             return new BornAfterCriteria(year);
         }
-        
-        
         public class BornAfterCriteria : ICriteria<Pet>
         {
             private readonly int _year;
@@ -75,23 +73,24 @@ namespace Training.DomainClasses
                 _year = year;
             }
 
-            public bool IsSatisfiedBy(Pet item)
+            public bool IsSatisfiedBy(Pet pet)
             {
-                return item.yearOfBirth > _year;
+                return pet.yearOfBirth > _year;
             }
         }
 
         public class SexCriteria : ICriteria<Pet>
         {
             private readonly Sex _sex;
+
             public SexCriteria(Sex sex)
             {
                 _sex = sex;
             }
 
-            public bool IsSatisfiedBy(Pet item)
+            public bool IsSatisfiedBy(Pet pet)
             {
-                return item.sex == _sex;
+                return pet.sex == _sex;
             }
         }
 
@@ -104,12 +103,17 @@ namespace Training.DomainClasses
                 _species = species;
             }
 
-            public bool IsSatisfiedBy(Pet item)
+            public bool IsSatisfiedBy(Pet pet)
             {
-                return item.species == _species;
+                return pet.species == _species;
             }
+        }
+
+        public static ICriteria<Pet> IsMale()
+        {
+            return new SexCriteria(Sex.Male);
         }
     }
 
-    
+ 
 }

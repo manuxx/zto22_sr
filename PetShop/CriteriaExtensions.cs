@@ -1,22 +1,14 @@
-using System;
+using Training.DomainClasses;
 
-namespace Training.DomainClasses
+static internal class CriteriaExtensions
 {
-    public static class CriteriaExtensions
+    public static Alternative<TItem> Or<TItem>(this ICriteria<TItem> leftCriteria, ICriteria<TItem> rightCriteria)
     {
-        public static ICriteria<TItem> Or<TItem>(this ICriteria<TItem> criteria1, ICriteria<TItem> criteria2)
-        {
-            return new Alternative<TItem>(criteria1, criteria2);
-        }
+        return new Alternative<TItem>(leftCriteria,rightCriteria);
+    }
 
-        public static ICriteria<TItem> Not<TItem>(this ICriteria<TItem> criteria1)
-        {
-            return new Negation<TItem>(criteria1);
-        }
-
-        public static Conjunction<TItem> And<TItem>(this ICriteria<TItem> criteria1, ICriteria<TItem> criteria2)
-        {
-            return new Conjunction<TItem>(criteria1, criteria2);
-        }
+    public static Conjunction<TItem> And<TItem>(this ICriteria<TItem> leftCriteria, ICriteria<TItem> rightCriteria)
+    {
+        return new Conjunction<TItem>(leftCriteria,rightCriteria);
     }
 }
