@@ -6,4 +6,9 @@ static internal class CriteriaExtensions
     {
         return new Alternative<TItem>(leftCriteria,rightCriteria);
     }
+
+    public static Conjunction<TItem> And<TItem>(this ICriteria<TItem> leftCriteria, ICriteria<TItem> rightCriteria)
+    {
+        return new Conjunction<TItem>(leftCriteria,rightCriteria);
+    }
 }
