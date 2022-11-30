@@ -49,15 +49,20 @@ namespace Training.DomainClasses
         }
 
         public IEnumerable<Pet> AllMice() => 
-            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.SpeciesEqual(Species.Mouse));
+            _petsInTheStore.SelectAllThatSatisfy(
+                new PetCriteria.SpeciesEqual(Species.Mouse));
         public IEnumerable<Pet> AllFemalePets() => 
-            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.SexEqual(Sex.Female));
+            _petsInTheStore.SelectAllThatSatisfy(
+                new PetCriteria.SexEqual(Sex.Female));
         public IEnumerable<Pet> AllCatsOrDogs() => 
-            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.InSpeciesGroup(new []{Species.Cat, Species.Dog}));
+            _petsInTheStore.SelectAllThatSatisfy(
+                new PetCriteria.InSpeciesGroup(new []{Species.Cat, Species.Dog}));
         public IEnumerable<Pet> AllPetsButNotMice() => 
-            _petsInTheStore.SelectAllThatSatisfy(new NegatedCriteria<Pet>(new PetCriteria.SpeciesEqual(Species.Mouse)));
+            _petsInTheStore.SelectAllThatSatisfy(
+                new PetCriteria.SpeciesEqual(Species.Mouse).Not());
         public IEnumerable<Pet> AllPetsBornAfter2010() => 
-            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.BornAfter(2010));
+            _petsInTheStore.SelectAllThatSatisfy(
+                new PetCriteria.BornAfter(2010));
 
         public IEnumerable<Pet> AllDogsBornAfter2010() =>
             _petsInTheStore.SelectAllThatSatisfy(

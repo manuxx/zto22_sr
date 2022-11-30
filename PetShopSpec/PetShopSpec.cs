@@ -6,7 +6,7 @@ using It = Machine.Specifications.It;
 
 namespace Training.Specificaton
 {
-    public abstract class pet_shop_concern : Specification<PetShop>
+    public abstract class pet_shop_concern : Specification<DomainClasses.PetShop>
     {
         Establish context = () =>
         {
