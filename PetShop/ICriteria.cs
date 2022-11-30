@@ -7,18 +7,4 @@ namespace Training.DomainClasses
         bool IsSatisfiedBy(T item);
     }
 
-    public class PredicateCriteria<T> : ICriteria<T>
-    {
-        private readonly Predicate<T> _predicate;
-
-        public PredicateCriteria(Predicate<T> predicate)
-        {
-            _predicate = predicate;
-        }
-
-        public bool IsSatisfiedBy(T item)
-        {
-            return _predicate(item);
-        }
-    }
 }

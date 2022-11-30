@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PetShop;
 
 namespace Training.DomainClasses
 {
@@ -48,20 +49,26 @@ namespace Training.DomainClasses
         }
 
         public IEnumerable<Pet> AllMice() => 
-            _petsInTheStore.SelectAllThatSatisfy(new SpeciesEqualityCriteria(Species.Mouse));
+            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.SpeciesEqual(Species.Mouse));
         public IEnumerable<Pet> AllFemalePets() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.sex == Sex.Female);
+            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.SexEqual(Sex.Female));
         public IEnumerable<Pet> AllCatsOrDogs() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.species == Species.Cat || pet.species == Species.Dog);
+            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.InSpeciesGroup(new []{Species.Cat, Species.Dog}));
         public IEnumerable<Pet> AllPetsButNotMice() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.species != Species.Mouse);
+            _petsInTheStore.SelectAllThatSatisfy(new NegatedCriteria<Pet>(new PetCriteria.SpeciesEqual(Species.Mouse)));
         public IEnumerable<Pet> AllPetsBornAfter2010() => 
-            _petsInTheStore.SelectAllThatSatisfy(new YearOfBirthCriteria(2011));
-        public IEnumerable<Pet> AllDogsBornAfter2010() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.species == Species.Dog && pet.yearOfBirth > 2010);
-        public IEnumerable<Pet> AllMaleDogs() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.sex == Sex.Male && pet.species == Species.Dog);
+            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.BornAfter(2010));
+
+        public IEnumerable<Pet> AllDogsBornAfter2010() =>
+            _petsInTheStore.SelectAllThatSatisfy(
+                new PetCriteria.SpeciesEqual(Species.Dog)
+                .And(new PetCriteria.BornAfter(2010)));
+
+        public IEnumerable<Pet> AllMaleDogs() =>
+            _petsInTheStore.SelectAllThatSatisfy(
+                new PetCriteria.SexEqual(Sex.Male).And(new PetCriteria.SpeciesEqual(Species.Dog)));
+        
         public IEnumerable<Pet> AllPetsBornAfter2011OrRabbits() => 
-            _petsInTheStore.SelectAllThatSatisfy(pet => pet.yearOfBirth > 2011 || pet.species == Species.Rabbit);
+            _petsInTheStore.SelectAllThatSatisfy(new PetCriteria.BornAfter(2011).Or(new PetCriteria.SpeciesEqual(Species.Rabbit)));
     }
 }
