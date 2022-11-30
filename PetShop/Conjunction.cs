@@ -1,17 +1,13 @@
 namespace Training.DomainClasses
 {
-    public class Conjunction<TItem> : ICriteria<TItem>
+    public class Conjunction<TItem> : BinaryCriteria<TItem>
     {
-        private readonly ICriteria<TItem> _leftCriteria;
-        private readonly ICriteria<TItem> _rightCriteria;
 
-        public Conjunction(ICriteria<TItem> leftCriteria, ICriteria<TItem> rightCriteria)
+        public Conjunction(ICriteria<TItem> leftCriteria, ICriteria<TItem> rightCriteria) :base(leftCriteria, rightCriteria)
         {
-            _leftCriteria = leftCriteria;
-            _rightCriteria = rightCriteria;
         }
 
-        public bool IsSatisfiedBy(TItem item)
+        public override bool IsSatisfiedBy(TItem item)
         {
             return _leftCriteria.IsSatisfiedBy(item) && _rightCriteria.IsSatisfiedBy(item);
         }
