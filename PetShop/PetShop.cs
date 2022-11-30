@@ -56,17 +56,17 @@ namespace Training.DomainClasses
 
         public IEnumerable<Pet> AllPetsButNotMice()
         {
-            return _petsInTheStore.ThatSatisfy(Pet.IsNotSpeciesOf(Species.Mouse));
-        }
-
-        public IEnumerable<Pet> AllPetsBornAfter2010()
-        {
-            return _petsInTheStore.ThatSatisfy(Pet.IsBornAfter(2010));
+            return _petsInTheStore.ThatSatisfy(new Negation(Pet.IsSpeciesOf(Species.Mouse)));
         }
 
         public IEnumerable<Pet> AllDogsBornAfter2010()
         {
             return _petsInTheStore.ThatSatisfy(pet => pet.species == Species.Dog && pet.yearOfBirth>2010);
+        }
+
+        public IEnumerable<Pet> AllPetsBornAfter2010()
+        {
+            return _petsInTheStore.ThatSatisfy(Pet.IsBornAfter(2010));
         }
 
         public IEnumerable<Pet> AllMaleDogs()
