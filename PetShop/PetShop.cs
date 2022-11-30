@@ -51,7 +51,7 @@ namespace Training.DomainClasses
 
         public IEnumerable<Pet> AllCatsOrDogs()
         {
-            return _petsInTheStore.ThatSatisfy(new Alternative<Pet>(Pet.IsSpeciesOf(Species.Cat),Pet.IsSpeciesOf(Species.Dog)));
+            return _petsInTheStore.ThatSatisfy(Pet.IsSpeciesOf(Species.Cat).Or(Pet.IsSpeciesOf(Species.Dog)));
         }
 
         public IEnumerable<Pet> AllPetsButNotMice()
@@ -79,4 +79,6 @@ namespace Training.DomainClasses
             return _petsInTheStore.ThatSatisfy(pet => pet.yearOfBirth>2011 || pet.species==Species.Rabbit);
         }
     }
+
+
 }

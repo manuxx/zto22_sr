@@ -1,17 +1,17 @@
 namespace Training.DomainClasses
 {
-    public class Conjunction<T> : ICriteria<Pet>
+    public class Conjunction<TItem> : ICriteria<TItem>
     {
-        private readonly ICriteria<Pet> _leftCriteria;
-        private readonly ICriteria<Pet> _rightCriteria;
+        private readonly ICriteria<TItem> _leftCriteria;
+        private readonly ICriteria<TItem> _rightCriteria;
 
-        public Conjunction(ICriteria<Pet> leftCriteria, ICriteria<Pet> rightCriteria)
+        public Conjunction(ICriteria<TItem> leftCriteria, ICriteria<TItem> rightCriteria)
         {
             _leftCriteria = leftCriteria;
             _rightCriteria = rightCriteria;
         }
 
-        public bool IsSatisfiedBy(Pet item)
+        public bool IsSatisfiedBy(TItem item)
         {
             return _leftCriteria.IsSatisfiedBy(item) && _rightCriteria.IsSatisfiedBy(item);
         }
