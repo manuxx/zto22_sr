@@ -4,7 +4,7 @@ using PetShop;
 
 namespace Training.DomainClasses
 {
-    internal static class EnumerableUtils
+    public static class EnumerableUtils
     {
         public static IEnumerable<T> Launder<T>(this IEnumerable<T> enumerable)
         {
