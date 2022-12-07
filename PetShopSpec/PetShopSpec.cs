@@ -250,34 +250,6 @@ namespace Training.Specificaton {
 
     }
 
-    internal static class Where<TBase> {
-        public static CriteriaBuilder<TBase, TField> HasAn<TField>(
-            Func<TBase, TField> selector) {
-            return new CriteriaBuilder<TBase, TField>(selector);
-        }
-    }
-
-    internal class CriteriaBuilder<TBase, TField> {
-        public readonly Func<TBase, TField> _selector;
-
-        public CriteriaBuilder(Func<TBase, TField> selector) {
-            _selector = selector;
-        }
-    }
-
-    internal static class ExtensionCriteriaBuilder {
-
-        public static ICriteria<TBase> IsEqualTo<TBase, TField>(this CriteriaBuilder<TBase, TField> self, TField value) {
-            return new AnonymousCriteria<TBase>(item =>
-                self._selector(item).Equals(value));
-        }
-
-        public static ICriteria<TBase> GreaterThan<TBase, TField>(this CriteriaBuilder<TBase, TField> self, IComparable<TField> value) {
-            return new AnonymousCriteria<TBase>(item =>
-                value.CompareTo(self._selector(item)) < 0);
-        }
-    }
-
 
     class when_sorting_pets : concern_with_pets_for_sorting_and_filtering {
         It should_be_able_to_sort_by_name_ascending = () => {
