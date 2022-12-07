@@ -205,7 +205,7 @@ namespace Training.Specificaton
     {
         private It should_be_able_to_find_all_cats = () =>
         {
-            ICriteria<Pet> criteria = Where_Pet
+            ICriteria<Pet> criteria = Where<Pet>
                                     .HasAn(p=>p.species)
                                     .IsEqualTo(Species.Cat);
             var foundPets = subject.AllPets().ThatSatisfy(criteria);
@@ -213,14 +213,14 @@ namespace Training.Specificaton
         };
         private It should_be_able_to_find_all_mice = () =>
         {
-            var criteria = Where_Pet.HasAn(p=>p.species).IsEqualTo(Species.Mouse);
+            var criteria = Where<Pet>.HasAn(p=>p.species).IsEqualTo(Species.Mouse);
             var foundPets = subject.AllPets().ThatSatisfy(criteria);
             foundPets.ShouldContainOnly(mouse_Dixie, mouse_Jerry);
         };
 
         private It should_be_able_to_find_all_female_pets = () =>
         {
-            var criteria = Where_Pet.HasAn(p => p.sex).IsEqualTo(Sex.Female);
+            var criteria = Where<Pet>.HasAn(p => p.sex).IsEqualTo(Sex.Female);
             var foundPets = subject.AllPets().ThatSatisfy(criteria);
             foundPets.ShouldContainOnly(dog_Lassie, mouse_Dixie);
         };
@@ -262,26 +262,26 @@ namespace Training.Specificaton
 
     }
 
-    internal static class Where_Pet
+    internal static class Where<TItem>
     {
-        public static CriteriaBuilder HasAn(Func<Pet, Species> selector)
+        public static CriteriaBuilder<TItem,TField> HasAn<TField>(Func<TItem, TField> selector)
         {
-            return new CriteriaBuilder(selector);
+            return new CriteriaBuilder<TItem,TField>(selector);
         }
     }
 
-    internal class CriteriaBuilder
+    internal class CriteriaBuilder<TItem,TField>
     {
-        private readonly Func<Pet, Species> _selector;
+        private readonly Func<TItem, TField> _selector;
 
-        public CriteriaBuilder(Func<Pet, Species> selector)
+        public CriteriaBuilder(Func<TItem, TField> selector)
         {
             _selector = selector;
         }
 
-        public ICriteria<Pet> IsEqualTo(Species species)
+        public ICriteria<TItem> IsEqualTo(TField species)
         {
-            return new AnonymousCriteria<Pet>(pet=>_selector(pet).Equals(species));
+            return new AnonymousCriteria<TItem>(pet=>_selector(pet).Equals(species));
         }
     }
 
