@@ -238,7 +238,7 @@ namespace Training.Specificaton
         
         private It should_be_able_to_find_all_pets_born_after_2010 = () =>
         {
-            var criteria = Where<Pet>.HasAn(p => p.yearOfBirth).GreterThan(2010);
+            var criteria = Where<Pet>.HasComparable(p => p.yearOfBirth).GreterThan(2010);
             var foundPets = subject.AllPets().ThatSatisfy(criteria);
             foundPets.ShouldContainOnly(dog_Pluto, rabbit_Fluffy, mouse_Dixie, mouse_Jerry);
         };
@@ -265,13 +265,17 @@ namespace Training.Specificaton
 
     internal static class Where<TItem>
     {
-        public static CriteriaBuilder<TItem,TField> HasAn<TField>(Func<TItem, TField> selector)
+        public static CriteriaBuilder<TItem,TField> HasAn<TField>(Func<TItem, TField> selector) 
         {
             return new CriteriaBuilder<TItem,TField>(selector);
         }
+        public static ComparableCriteriaBuilder<TItem, TField> HasComparable<TField>(Func<TItem, TField> selector) where TField : IComparable<TField>
+        {
+            return new ComparableCriteriaBuilder<TItem, TField>(selector);
+        }
     }
 
-    internal class CriteriaBuilder<TItem,TField>
+    internal class CriteriaBuilder<TItem,TField> 
     {
         private readonly Func<TItem, TField> _selector;
 
@@ -283,6 +287,27 @@ namespace Training.Specificaton
         public ICriteria<TItem> IsEqualTo(TField species)
         {
             return new AnonymousCriteria<TItem>(pet=>_selector(pet).Equals(species));
+        }
+
+    }
+
+    internal class ComparableCriteriaBuilder<TItem, TField> where TField : IComparable<TField>
+    {
+        private readonly Func<TItem, TField> _selector;
+
+        public ComparableCriteriaBuilder(Func<TItem, TField> selector)
+        {
+            _selector = selector;
+        }
+
+        public ICriteria<TItem> IsEqualTo(TField species)
+        {
+            return new AnonymousCriteria<TItem>(pet => _selector(pet).Equals(species));
+        }
+
+        public ICriteria<TItem> GreterThan(TField i)
+        {
+            return new AnonymousCriteria<TItem>(pet => _selector(pet).CompareTo(i) > 0);
         }
     }
 
