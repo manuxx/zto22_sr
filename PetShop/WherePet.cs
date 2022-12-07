@@ -3,26 +3,27 @@ using PetShop;
 
 namespace Training.DomainClasses
 {
-    public class WherePet
+    public class Where<TItem>
     {
-        public static PetCriteriaBuilder<T> Has<T>(Func<Pet, T> selector)
+        public static CriteriaBuilder<TItem, TField> Has<TField>(Func<TItem, TField> selector)
         {
-            return new PetCriteriaBuilder<T>(selector);
+            return new CriteriaBuilder<TItem, TField>(selector);
         }
     }
 
-    public class PetCriteriaBuilder<T>
+    public class CriteriaBuilder<TItem, TField>
     {
-        private readonly Func<Pet, T> _selector;
+        private readonly Func<TItem, TField> _selector;
 
-        public PetCriteriaBuilder(Func<Pet, T> selector)
+        public CriteriaBuilder(Func<TItem, TField> selector)
         {
             _selector = selector;
         }
 
-        public ICriteria<Pet> EqualTo(T value)
+        public ICriteria<TItem> EqualTo(TField value)
         {
-            return new PredicateCriteria<Pet>(pet => _selector(pet).Equals(value));
+            return new PredicateCriteria<TItem>(item => _selector(item).Equals(value));
         }
+
     }
 }

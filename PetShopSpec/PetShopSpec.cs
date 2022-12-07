@@ -205,7 +205,7 @@ namespace Training.Specificaton
     {
         private It should_be_able_to_find_all_cats = () =>
         {
-            var criteria = WherePet.Has(pet => pet.species).EqualTo(Species.Cat);
+            var criteria = Where<Pet>.Has(pet => pet.species).EqualTo(Species.Cat);
             var foundPets = subject.AllPets().SelectAllThatSatisfy(criteria);
             foundPets.ShouldContainOnly(cat_Tom, cat_Jinx);
         };
