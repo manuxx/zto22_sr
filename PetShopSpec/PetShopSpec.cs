@@ -216,6 +216,14 @@ namespace Training.Specificaton
             var foundPets = subject.AllPets().ThatSatisfy(criteria);
             foundPets.ShouldContainOnly(mouse_Dixie, mouse_Jerry);
         };
+        
+        private It should_be_able_to_find_all_mice_double_not = () =>
+        {
+            var criteria = Where<Pet>.HasAn(p=>p.species).Not().Not().IsEqualTo(Species.Mouse);
+            var foundPets = subject.AllPets().ThatSatisfy(criteria);
+            foundPets.ShouldContainOnly(mouse_Dixie, mouse_Jerry);
+        };
+        
 
         private It should_be_able_to_find_all_female_pets = () =>
         {
@@ -231,7 +239,8 @@ namespace Training.Specificaton
 
         private It should_be_able_to_find_all_pets_but_not_mice = () =>
         {
-            var foundPets = subject.AllPetsButNotMice();
+            var criteria = Where<Pet>.HasAn(pet => pet.species).Not().IsEqualTo(Species.Mouse);
+            var foundPets = subject.AllPets().ThatSatisfy(criteria);
             foundPets.ShouldContainOnly(cat_Tom, cat_Jinx, dog_Huckelberry, dog_Lassie, dog_Pluto, rabbit_Fluffy);
         };
         
@@ -264,9 +273,9 @@ namespace Training.Specificaton
 
     internal static class Where<TItem>
     {
-        public static CriteriaBuilder<TItem,TField> HasAn<TField>(Func<TItem, TField> selector) 
+        public static FilteringEntryPoint<TItem,TField> HasAn<TField>(Func<TItem, TField> selector) 
         {
-            return new CriteriaBuilder<TItem,TField>(selector);
+            return new FilteringEntryPoint<TItem,TField>(selector);
         }
 
     }
