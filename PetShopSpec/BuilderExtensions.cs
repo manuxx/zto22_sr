@@ -3,15 +3,15 @@ using Training.Specificaton;
 
 static internal class BuilderExtensions
 {
-    public static ICriteria<TItem> IsEqualTo<TItem, TField>(this CriteriaBuilder<TItem, TField> criteriaBuilder, TField value)
+    public static ICriteria<TItem> IsEqualTo<TItem, TField>(this FilteringEntryPoint<TItem, TField> criteriaBuilder, TField value)
     {
-        return new AnonymousCriteria<TItem>(pet=> criteriaBuilder._selector(pet).Equals(value));
+        return new AnonymousCriteria<TItem>(item=> criteriaBuilder.selector(item).Equals(value));
     }
 
-    public static ICriteria<TItem> GreaterThan<TItem, TField>(this CriteriaBuilder<TItem, TField> criteriaBuilder, TField value) 
+    public static ICriteria<TItem> GreaterThan<TItem, TField>(this FilteringEntryPoint<TItem, TField> criteriaBuilder, TField value) 
         where TField : IComparable<TField>
 
     {
-        return new AnonymousCriteria<TItem>(pet => criteriaBuilder._selector(pet).CompareTo(value)>0);
+        return new AnonymousCriteria<TItem>(item => criteriaBuilder.selector(item).CompareTo(value)>0);
     }
 }

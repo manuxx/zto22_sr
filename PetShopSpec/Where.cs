@@ -4,9 +4,9 @@ namespace Training.Specificaton
 {
     internal static class Where<TItem>
     {
-        public static CriteriaBuilder<TItem,TField> HasAn<TField>(Func<TItem, TField> selector) 
+        public static FilteringEntryPoint<TItem,TField> HasAn<TField>(Func<TItem, TField> selector) 
         {
-            return new CriteriaBuilder<TItem,TField>(selector);
+            return new FilteringEntryPoint<TItem,TField>(selector);
         }
 
     }
