@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Training.DomainClasses;
 using Machine.Specifications;
+using PetShop;
 using It = Machine.Specifications.It;
 
 namespace Training.Specificaton
@@ -205,7 +206,7 @@ namespace Training.Specificaton
     {
         private It should_be_able_to_find_all_cats = () =>
         {
-            var criteria = Where<Pet>.Has(pet => pet.species).EqualTo(Species.Cat);
+            var criteria = Where<Pet>.Has(pet => pet.species).EqualTo(Species.Cat).Build();
             var foundPets = subject.AllPets().SelectAllThatSatisfy(criteria);
             foundPets.ShouldContainOnly(cat_Tom, cat_Jinx);
         };
@@ -214,6 +215,23 @@ namespace Training.Specificaton
         {
             var foundPets = subject.AllMice();
             foundPets.ShouldContainOnly(mouse_Dixie, mouse_Jerry);
+        };
+        private It should_be_able_to_find_all_mice_with_double_not = () =>
+        {
+            var criteria = Where<Pet>.Has(p => p.species).Not().Not().EqualTo(Species.Mouse).Build();
+            var foundPets = subject.AllPets().SelectAllThatSatisfy(criteria);
+            foundPets.ShouldContainOnly(mouse_Dixie, mouse_Jerry);
+        };
+
+        private It should_be_able_to_find_all_but_mice_with_no_strang_effects = () =>
+        {
+            var negationCriteaBuilder = Where<Pet>.Has(p => p.species).Not();
+            var criteria = negationCriteaBuilder.EqualTo(Species.Mouse).Build();
+            var criteria1 = negationCriteaBuilder.Not().EqualTo(Species.Cat).Build();
+            var foundPets = subject.AllPets().SelectAllThatSatisfy(criteria);
+            foundPets.ShouldContainOnly(cat_Tom, cat_Jinx, dog_Huckelberry, dog_Lassie, dog_Pluto, rabbit_Fluffy);
+
+            var foundPets1 = subject.AllPets().SelectAllThatSatisfy(criteria1);
         };
         
         private It should_be_able_to_find_all_female_pets = () =>
@@ -230,13 +248,15 @@ namespace Training.Specificaton
         
         private It should_be_able_to_find_all_pets_but_not_mice = () =>
         {
-            var foundPets = subject.AllPetsButNotMice();
+            var criteria = Where<Pet>.Has(pet => pet.species).Not().EqualTo(Species.Mouse).Build();
+            var foundPets = subject.AllPets().SelectAllThatSatisfy(criteria);
             foundPets.ShouldContainOnly(cat_Tom, cat_Jinx, dog_Huckelberry, dog_Lassie, dog_Pluto, rabbit_Fluffy);
         };
         
         private It should_be_able_to_find_all_pets_born_after_2010 = () =>
         {
-            var foundPets = subject.AllPetsBornAfter2010();
+            var criteria = Where<Pet>.Has(pet => pet.yearOfBirth).GreaterThan(2010).Build();
+            var foundPets = subject.AllPets().SelectAllThatSatisfy(criteria);
             foundPets.ShouldContainOnly(dog_Pluto, rabbit_Fluffy, mouse_Dixie, mouse_Jerry);
         };
         
