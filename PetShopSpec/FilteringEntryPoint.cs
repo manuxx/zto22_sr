@@ -8,15 +8,20 @@ namespace Training.Specificaton
         public readonly Func<TItem, TField> selector;
         public bool _negation;
 
-        public FilteringEntryPoint(Func<TItem, TField> selector)
+        public FilteringEntryPoint(Func<TItem, TField> selector) : this(selector, false)
+        {
+        }
+
+        private FilteringEntryPoint(Func<TItem, TField> selector, bool negation) 
         {
             this.selector = selector;
+            _negation = negation;
         }
 
         public FilteringEntryPoint<TItem,TField> Not()
         {
-            _negation  = true;
-            return this;
+
+            return new FilteringEntryPoint<TItem, TField>(selector, !_negation);
         }
     }
 }

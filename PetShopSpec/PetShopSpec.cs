@@ -216,7 +216,24 @@ namespace Training.Specificaton
             var foundPets = subject.AllPets().ThatSatisfy(criteria);
             foundPets.ShouldContainOnly(mouse_Dixie, mouse_Jerry);
         };
+        private It should_be_able_to_find_all_mice_with_double_not = () =>
+        {
+            var criteria = Where<Pet>.HasAn(p => p.species).Not().Not().IsEqualTo(Species.Mouse);
+            var foundPets = subject.AllPets().ThatSatisfy(criteria);
+            foundPets.ShouldContainOnly(mouse_Dixie, mouse_Jerry);
+        };
 
+        private It should_be_able_to_find_all_but_mice_with_no_strang_effects = () =>
+        {
+            var negationCriteaBuilder = Where<Pet>.HasAn(p => p.species).Not();
+            var criteria = negationCriteaBuilder.IsEqualTo(Species.Mouse);
+            var criteria1 = negationCriteaBuilder.Not().IsEqualTo(Species.Cat);
+            var foundPets = subject.AllPets().ThatSatisfy(criteria);
+            foundPets.ShouldContainOnly(cat_Tom, cat_Jinx, dog_Huckelberry, dog_Lassie, dog_Pluto, rabbit_Fluffy);
+
+            var foundPets1 = subject.AllPets().ThatSatisfy(criteria1);
+
+        };
         private It should_be_able_to_find_all_female_pets = () =>
         {
             var criteria = Where<Pet>.HasAn(p => p.sex).IsEqualTo(Sex.Female);
