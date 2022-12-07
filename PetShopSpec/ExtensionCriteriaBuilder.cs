@@ -6,11 +6,11 @@ internal static class ExtensionCriteriaBuilder {
 
 	public static ICriteria<TBase> IsEqualTo<TBase, TField>(this CriteriaBuilder<TBase, TField> self, TField value) {
 		return new AnonymousCriteria<TBase>(item =>
-			self._selector(item).Equals(value));
+			self._selector(item).Equals(value) ^ self.negate);
 	}
 
 	public static ICriteria<TBase> GreaterThan<TBase, TField>(this CriteriaBuilder<TBase, TField> self, IComparable<TField> value) {
 		return new AnonymousCriteria<TBase>(item =>
-			value.CompareTo(self._selector(item)) < 0);
+			(value.CompareTo(self._selector(item)) < 0 )^ self.negate);
 	}
 }
