@@ -1,4 +1,5 @@
 ﻿using System;
+using Training.DomainClasses;
 
 namespace Training.Specificaton;
 
@@ -18,5 +19,12 @@ internal class CriteriaBuilder<TBase, TField> {
 
 	public CriteriaBuilder<TBase, TField> Not() {
 		return new CriteriaBuilder<TBase, TField>(_selector, !negate);
+	}
+
+	public ICriteria<TBase> Apply(ICriteria<TBase> criteria) {
+		if(negate)
+			return new Negation<TBase>(criteria);
+		else
+			return criteria;
 	}
 }
