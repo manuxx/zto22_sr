@@ -258,20 +258,23 @@ namespace Training.Specificaton {
     }
 
     internal class CriteriaBuilder<TBase, TField> {
-        private readonly Func<TBase, TField> _selector;
+        public readonly Func<TBase, TField> _selector;
 
         public CriteriaBuilder(Func<TBase, TField> selector) {
             _selector = selector;
         }
+    }
 
-        public ICriteria<TBase> IsEqualTo(TField value) {
+    internal static class ExtensionCriteriaBuilder {
+
+        public static ICriteria<TBase> IsEqualTo<TBase, TField>(this CriteriaBuilder<TBase, TField> self, TField value) {
             return new AnonymousCriteria<TBase>(item =>
-                _selector(item).Equals(value));
+                self._selector(item).Equals(value));
         }
 
-        public ICriteria<TBase> GreaterThan(IComparable<TField> value) {
+        public static ICriteria<TBase> GreaterThan<TBase, TField>(this CriteriaBuilder<TBase, TField> self, IComparable<TField> value) {
             return new AnonymousCriteria<TBase>(item =>
-                value.CompareTo(_selector(item)) < 0);
+                value.CompareTo(self._selector(item)) < 0);
         }
     }
 
