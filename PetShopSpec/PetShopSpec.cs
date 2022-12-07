@@ -206,8 +206,7 @@ namespace Training.Specificaton
         private It should_be_able_to_find_all_cats = () =>
         {
             ICriteria<Pet> criteria = Where<Pet>
-                                    .HasAn(p=>p.species)
-                                    .IsEqualTo(Species.Cat);
+                .HasAn(p=>p.species).IsEqualTo(Species.Cat);
             var foundPets = subject.AllPets().ThatSatisfy(criteria);
             foundPets.ShouldContainOnly(cat_Tom, cat_Jinx);
         };
@@ -272,29 +271,6 @@ namespace Training.Specificaton
 
     }
 
-    internal class CriteriaBuilder<TItem,TField> 
-    {
-        private readonly Func<TItem, TField> _selector;
-
-        public CriteriaBuilder(Func<TItem, TField> selector)
-        {
-            _selector = selector;
-        }
-
-        public ICriteria<TItem> IsEqualTo(TField value)
-        {
-            return new AnonymousCriteria<TItem>(pet=>_selector(pet).Equals(value));
-        }
-
-        public ICriteria<TItem> GreaterThan<TComparableField>(TComparableField value) 
-                                            where TComparableField : IComparable<TField>
-
-        {
-            return new AnonymousCriteria<TItem>(pet => value.CompareTo(_selector(pet))<0);
-        }
-    }
-
-    
 
     class when_sorting_pets : concern_with_pets_for_sorting_and_filtering
     {
